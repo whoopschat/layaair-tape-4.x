@@ -121,7 +121,7 @@ gulp.task('help', Empty.emptyTask(() => {
     console.log("  --input            input dir");
     console.log("  --output           output dir");
     console.log("  --env              [Optional] development(dev) || production(prod)");
-    console.log("  --platform         [Optional] h5 || cocos || android");
+    console.log("  --platform         [Optional] h5 | cocos | android");
     console.log("  --index            [Optional] index.html file def: index.html");
     console.log("  --version          [Optional] version code def: read package.json");
     console.log("  --cssfile          [Optional] cssfile def: style.css");
