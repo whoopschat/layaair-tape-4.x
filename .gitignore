@@ -1,0 +1,20 @@
+# OSX
+#
+.DS_Store
+
+# node.js
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# vim
+*.swp
+
+# idea
+.idea
+
+# folder
+node_modules/
+/dist-dev
+/build
+/test

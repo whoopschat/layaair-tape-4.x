@@ -1,0 +1,24 @@
+{
+  "name": "#project-name#",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "layaair-tape build --platform h5 --input ./bin --output ./dist",   
+    "clean": "del release && del bin/js",
+    "compile": "layaair-cmd compile",
+    "start": "npm run clean && concurrently --kill-others \"npm run watch-bin\" \"npm run watch-src\"",
+    "watch-bin": "onchange ./bin/** -v -- npm run build",
+    "watch-src": "onchange ./src/** -v -- npm run compile"
+  },
+  "devDependencies": {
+    "del-cli": "^1.1.0",
+    "concurrently": "^3.6.1",
+    "layaair-cmd": "2.2.6",
+    "layaair-tape": "#layaair-tape-version#",
+    "onchange": "^4.0.0",
+    "typescript": "^2.6.2"
+  },
+  "author": "",
+  "license": "ISC"
+}
