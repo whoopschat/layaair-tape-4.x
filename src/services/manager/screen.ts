@@ -33,6 +33,15 @@ export function initScreen(is3D, width, height, ...options) {
     Laya.stage.scaleMode = Laya.Stage.SCALE_EXACTFIT;
     Laya.stage.alignH = Laya.Stage.ALIGN_CENTER;
     Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
+
+    // 屏幕适配
+    if (typeof window['getAdapterInfo'] !== "undefined") {
+        var stage = Laya.stage;
+        var info = window['getAdapterInfo']({ width: initWidth, height: initHeight, scaleMode: Laya.stage.scaleMode });
+        stage.designWidth = info.w; stage.designHeight = info.h; stage.width = info.rw;
+        stage.height = info.rh; stage.scale(info.scaleX, info.scaleY);
+    }
+    
     initBg();
     initUI(_offset_x, _offset_y)
 }

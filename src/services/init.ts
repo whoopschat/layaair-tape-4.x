@@ -15,6 +15,7 @@ export function init(width: number, height: number, ...options) {
     env.printDebug(`init...`);
     env.printDebug(`tape version: ${env.getVersion()}`);
     env.printDebug(`app version: ${env.getAppVersion()}`);
+    env.printDebug(`app debug: ${env.isDebug()}`);
     env.printDebug(`env: ${env.getEnv()}`);
     initScreen(false, width, height, ...options);
     _inited = true;
@@ -31,6 +32,7 @@ export function init3D(width: number, height: number, ...options) {
     env.printDebug(`init3D...`);
     env.printDebug(`tape version: ${env.getVersion()}`);
     env.printDebug(`app version: ${env.getAppVersion()}`);
+    env.printDebug(`app debug: ${env.isDebug()}`);
     env.printDebug(`env: ${env.getEnv()}`);
     initScreen(true, width, height, ...options);
     _inited = true;
