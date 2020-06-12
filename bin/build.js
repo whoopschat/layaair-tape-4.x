@@ -45,14 +45,14 @@ if (_type == 'build') {
         console.log('');
         return;
     }
-    let output = path.join(libDir, dir);
+    let output = path.join(process.cwd(), dir);
     if (!fst.emptySync(output)) {
         console.log(`Failure : directory "${output}" is not empty, ignore`);
         console.log('');
         return;
     }
     let replaceOpts = {
-        '#project-name#': path.basename(libDir) || 'layaair-tape-project',
+        '#project-name#': path.basename(process.cwd()) || 'layaair-tape-project',
         '#layaair-tape-version#': version
     }
     fst.copyDirSync(template, output, (item) => {
@@ -63,6 +63,7 @@ if (_type == 'build') {
     console.log('');
 } else {
     console.log('Usage: layaair-tape [options]');
+    console.log("       server  -  run server");
     console.log("       build   -  build layaair project");
     console.log("       create  -  create layaair project");
     console.log('');
