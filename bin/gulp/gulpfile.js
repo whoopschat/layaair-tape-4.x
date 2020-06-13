@@ -20,11 +20,14 @@ const minimist = require('minimist');
 const program = minimist(process.argv.slice(2), []);
 
 const jsFile = "code.js";
-const chunkJsFile = "code.chunk.js";
-const supportPlatform = ["h5", "cocos", "android"]
+const supportPlatform = ["h5", "quickgame", "android"]
 
 if (!program.platform) {
     program.platform = 'h5';
+}
+
+if (!program.jsfile) {
+    program.jsfile = 'code.js';
 }
 
 if (program.env) {
@@ -69,7 +72,7 @@ const initReplaceList = (htmlFile) => {
     let projectname = program.projectname || Html.readValue({ file: htmlFile, selector: 'title' }, "Game");
     let orientation = program.orientation || Html.readValue({ file: htmlFile, selector: 'meta', attribute: 'screenorientation' }, "portrait");
     let packagename = program.packagename || Html.readValue({ file: htmlFile, selector: 'meta', attribute: 'packagename' }, "com.tapegame");
-    let bg_color = program.bgcolor ? program.bgcolor : "#ffffff";
+    let bg_color = program.bgcolor ? program.bgcolor : "#000000";
     replaceList.push(['${app_version}', app_version]);
     replaceList.push(['${bg_color}', bg_color]);
     replaceList.push(['${orientation}', orientation]);
@@ -77,7 +80,6 @@ const initReplaceList = (htmlFile) => {
     replaceList.push(['${package_name}', packagename]);
     replaceList.push(['${env}', program.env]);
     replaceList.push(['${codeJs}', jsFile]);
-    replaceList.push(['${codeChunkJs}', chunkJsFile]);
 }
 
 const begin = () => {
@@ -121,10 +123,11 @@ gulp.task('help', Empty.emptyTask(() => {
     console.log("  --input            input dir");
     console.log("  --output           output dir");
     console.log("  --env              [Optional] development(dev) || production(prod)");
-    console.log("  --platform         [Optional] h5 | cocos | android");
+    console.log("  --platform         [Optional] h5 | quickgame | android");
     console.log("  --index            [Optional] index.html file def: index.html");
     console.log("  --version          [Optional] version code def: read package.json");
     console.log("  --cssfile          [Optional] cssfile def: style.css");
+    console.log("  --jsfile           [Optional] jsfile def: code.js");
     console.log("  --projectname      [Optional] project name");
     console.log("  --packagename      [Optional] android package name");
     console.log("  --orientation      [Optional] android screen orientation");
@@ -152,9 +155,9 @@ gulp.task('pngquant', Pngquant.pngquantTask(program.input, program.outputTemp, p
 
 gulp.task('mergeCss', Mergecss.mergeCssTask(`${program.input}/${program.index}`, program.outputTemp, program.cssfile, !program.obfuscate && program.min, replaceList));
 
-gulp.task('mergeJs', Mergejs.mergeJsTask(`${program.input}/${program.index}`, program.outputTemp, jsFile, chunkJsFile, !program.obfuscate && program.min, replaceList));
+gulp.task('mergeJs', Mergejs.mergeJsTask(`${program.input}/${program.index}`, program.outputTemp, program.jsfile, !program.obfuscate && program.min, replaceList));
 
-gulp.task('inject', Injection.injectTask(program.index, program.outputTemp, program.cssfile, jsFile, chunkJsFile, program.injection, program['injection-append'], program.force));
+gulp.task('inject', Injection.injectTask(program.index, program.outputTemp, program.cssfile, program.jsfile, program.injection, program['injection-append'], program.force));
 
 gulp.task('zip', Zipe.zipTask(program.outputTemp, program['zip-name'] || "build.zip"))
 

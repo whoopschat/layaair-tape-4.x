@@ -26,12 +26,13 @@
     --input            input dir
     --output           output dir
     --env              [Optional] development | production(prod)
-    --platform         [Optional] h5 | cocos | android
+    --platform         [Optional] h5 | quickgame | android
     --index            [Optional] index.html file def: index.html
     --version          [Optional] version code def: read package.json
     --cssfile          [Optional] cssfile def: style.css
+    --jsfile           [Optional] jsfile def: code.js
     --projectname      [Optional] project name
-    --packagename      [Optional] android package name
+    --packagename      [Optional] android package name, def: 
     --orientation      [Optional] android screen orientation
     --pngquant         [Optional] pngquant quality def:65-80
     --injection        [Optional] injection js file

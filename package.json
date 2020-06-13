@@ -10,7 +10,7 @@
     "test-create": "node ./bin/build.js create test",
     "test-server": "node ./bin/build.js server",
     "test-build-h5": "node ./bin/build.js build --platform h5 --output ./build/ --input ./test/bin/ --force",
-    "test-build-cocos": "node ./bin/build.js build --platform cocos --output ./build/ --input ./test/bin/ --force --zip --zip-name game.cpk",
+    "test-build-cocos": "node ./bin/build.js build --platform quickgame --output ./build/ --input ./test/bin/ --force --zip --zip-name game.cpk",
     "test-build-android": "node ./bin/build.js build --platform android --output ./android/ --input ./test/bin/ --force"
   },
   "author": "liangmayong",
