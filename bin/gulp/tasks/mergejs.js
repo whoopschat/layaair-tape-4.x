@@ -36,7 +36,7 @@ const downloadRemoteJs = (htmlFile, tempDir) => {
 const mergeJs = (htmlFile, outputDir, jsFile, uglify, replaces = []) => {
     return (done) => {
         var loadFiles = [...remoteFiles];
-        loadFiles.push(...HtmlUtils.readLocalFiles({ file: htmlFile, selector: 'script', attribute: 'src', exclude: { build: ['unpack', 'chunk'] } }));
+        loadFiles.push(...HtmlUtils.readLocalFiles({ file: htmlFile, selector: 'script', attribute: 'src', exclude: { build: ['unpack'] } }));
         if (loadFiles.length > 0) {
             var task = gulp.src(loadFiles);
             task = task.pipe(gulpConcat(jsFile))
