@@ -3,6 +3,7 @@ import UIMgr from "../manager/uimgr";
 let _popups = {};
 let _fromProps = { alpha: 0 }
 let _toProps = { alpha: 1 }
+let _exitProps = { alpha: 0 }
 
 function _showPopupAnim(popupView, cb) {
     let from = popupView.fromProps || _fromProps || {};
@@ -17,7 +18,7 @@ function _showPopupAnim(popupView, cb) {
 
 function _hidePopupAnim(popupView, cb) {
     let from = popupView.toProps || _toProps || {};
-    let to = popupView.fromProps || _fromProps || {};
+    let to = popupView.exitProps || _exitProps || {};
     let easeOut = popupView.easeOut || Laya.Ease.linearOut;
     let duration = popupView.duration || 500;
     Object.assign(popupView, from);

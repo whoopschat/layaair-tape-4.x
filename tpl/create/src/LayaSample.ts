@@ -1,12 +1,14 @@
 // 游戏入口
 class GameMain {
     constructor() {
+        // 调试模式
+        Tape.env.setDebug(true);
+        // 设置当前环境
+        Tape.env.setEnv("dev");
         // 初始化场景
-        Tape.init(750, 1334);
+        Tape.init(750, 1334, Laya.WebGL);
         // 设置纯色背景
-        // Tape.bg.setBgColor('#3399ff');
-        // 设置贴纸背景
-        Tape.bg.setBgTexture('res/unpack/bg.png');
+        Tape.bg.setBgColor('#18a28b');
         // 开始加载游戏
         Tape.start({
             mainPage: LoadingActivity,

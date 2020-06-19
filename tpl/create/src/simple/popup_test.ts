@@ -1,6 +1,6 @@
-class TestPop extends Tape.PopupView {
+class TestPopup extends Tape.PopupView {
 
-    ui = new ui.test_popUI;
+    ui = new ui.popups.test_popupUI;
 
     constructor() {
         super();
@@ -10,7 +10,6 @@ class TestPop extends Tape.PopupView {
     }
 
     onShow() {
-        this.canceledOnTouchOutside = true;
     }
 
     onHide() {

@@ -78,12 +78,24 @@ declare module Tape {
         function getBgSprite(): Laya.Sprite;
     }
 
+    /** eft */
+    module eft {
+        /** create */
+        function create(path: string, play?: boolean, loop?: boolean, loadComplet?: Function, thisRef?: any): Laya.MovieClip;
+        /** remove */
+        function remove(mc: Laya.MovieClip): void;
+    }
+
     /** screen */
     module screen {
+        /** adapter */
+        function adapter(): void;
         /** getWidth */
         function getWidth(): number;
         /** getHeight */
         function getHeight(): number;
+        /** getScaleMode */
+        function getScaleMode(): string;
         /** getOffestX */
         function getOffestX(): number;
         /** getOffestY */
@@ -93,7 +105,7 @@ declare module Tape {
         /** getDesignHeight */
         function getDesignHeight(): number;
         /** setDeviation */
-        function setDeviation(deviation): void;
+        function setDeviation(deviation: number): void;
     }
 
     /** audio */
@@ -124,6 +136,16 @@ declare module Tape {
         function randomArrayItem(source: any[]): any;
         /** toAny */
         function toAny(source: any, def: any): any;
+    }
+
+    /** event */
+    module event {
+        /** registeredEvent */
+        function registeredEvent(type: any, fun: Function, thisRef: any, index?: number): void
+        /** removeEvent */
+        function removeEvent(type: any, fun: Function, thisRef: any): void;
+        /** sendEvent */
+        function sendEvent(type: any, args?: Array<any>): void;
     }
 
     /** runtime */
@@ -275,6 +297,8 @@ declare module Tape {
         protected fromProps: obj;
         /** toProps */
         protected toProps: obj;
+        /** exitProps */
+        protected exitProps: obj;
         /** bgAlpha */
         protected bgAlpha: number;
         /** bgColor */
@@ -318,6 +342,8 @@ declare module Tape {
         protected fromProps: obj;
         /** toProps */
         protected toProps: obj;
+        /** exitProps */
+        protected exitProps: obj;
         /** bgAlpha */
         protected bgAlpha: number;
         /** bgColor */

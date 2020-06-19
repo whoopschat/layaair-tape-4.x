@@ -1,9 +1,9 @@
 class LoadingActivity extends Tape.Activity {
 
-    ui = new ui.page.loadingUI
+    ui = new ui.pages.loadingUI
 
     onCreate() {
-        console.log('----------');
+        // do something
         setTimeout(() => {
             this.redirectTo(MainActivity);
         }, 1000);

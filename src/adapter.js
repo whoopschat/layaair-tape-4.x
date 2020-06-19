@@ -1,5 +1,6 @@
-// 文件加载
+// loader
 if (Laya && Laya.Loader) {
+  var Handler = Laya.Handler;
   var Loader = Laya.Loader;
   var HttpRequest = Laya.HttpRequest;
   var __proto = Loader.prototype;
@@ -23,7 +24,7 @@ if (Laya && Laya.Loader) {
     if (group) Loader.setGroup(url, group);
     if (Loader.parserMap[type] != null) {
       this._customParse = true;
-      if (((Loader.parserMap[type]) instanceof laya.utils.Handler)) Loader.parserMap[type].runWith(this);
+      if (((Loader.parserMap[type]) instanceof Handler)) Loader.parserMap[type].runWith(this);
       else Loader.parserMap[type].call(null, this);
       return;
     }

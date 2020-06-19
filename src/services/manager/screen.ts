@@ -33,21 +33,20 @@ export function initScreen(is3D, width, height, ...options) {
     Laya.stage.scaleMode = Laya.Stage.SCALE_EXACTFIT;
     Laya.stage.alignH = Laya.Stage.ALIGN_CENTER;
     Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
-
-    // 屏幕适配
-    if (typeof window['getAdapterInfo'] !== "undefined") {
-        var stage = Laya.stage;
-        var info = window['getAdapterInfo']({ width: initWidth, height: initHeight, scaleMode: Laya.stage.scaleMode });
-        stage.designWidth = info.w; stage.designHeight = info.h; stage.width = info.rw;
-        stage.height = info.rh; stage.scale(info.scaleX, info.scaleY);
-    }
-    
+    adapter();
     initBg();
     initUI(_offset_x, _offset_y)
 }
 
-function setDeviation(deviation) {
-    _deviation = deviation;
+function adapter() {
+    if (typeof window['getAdapterInfo'] !== "undefined") {
+        var stage = Laya.stage;
+        var info = window['getAdapterInfo']({ width: getWidth(), height: getHeight(), scaleMode: getScaleMode() });
+        stage.designWidth = info.w;
+        stage.designHeight = info.h;
+        stage.width = info.rw;
+        stage.height = info.rh; stage.scale(info.scaleX, info.scaleY);
+    }
 }
 
 function getWidth() {
@@ -56,6 +55,10 @@ function getWidth() {
 
 function getHeight() {
     return Laya.stage.height;
+}
+
+function getScaleMode() {
+    return Laya.stage.scaleMode;
 }
 
 function getOffestX() {
@@ -74,12 +77,18 @@ function getDesignHeight() {
     return _design_height;
 }
 
+function setDeviation(deviation) {
+    _deviation = deviation;
+}
+
 export default {
-    setDeviation,
+    adapter,
     getWidth,
     getHeight,
+    getScaleMode,
     getOffestX,
     getOffestY,
     getDesignWidth,
     getDesignHeight,
+    setDeviation,
 }

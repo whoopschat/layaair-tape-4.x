@@ -1,9 +1,11 @@
 import "./adapter";
 import "./polyfill";
 import bg from "./services/manager/bg";
+import eft from "./services/manager/eft";
 import screen from "./services/manager/screen";
 import audio from './services/audio';
 import env from "./utils/env";
+import event from "./services/event";
 import runtime from "./services/runtime";
 import utils from './services/utils';
 import navigator from "./services/navigator/stack";
@@ -15,13 +17,15 @@ import ToastView from "./services/display/toastview";
 import { init, init3D, start } from './services/init';
 
 const Tape = {
-    env,
     init,
     init3D,
     start,
+    env,
     bg,
+    eft,
     screen,
     audio,
+    event,
     runtime,
     utils,
     navigator,

@@ -19,6 +19,7 @@ export default class PopupView extends ui {
     public easeOut = null;
     public fromProps = null;
     public toProps = null;
+    public exitProps = null;
     public onShow?(): void;
     public onHide?(): void;
     public isTranslucent = false;

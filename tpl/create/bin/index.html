@@ -4,7 +4,8 @@
 <head>
     <meta charset='utf-8' />
     <title>#project-name#</title>
-    <meta name='viewport' content='width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no' />
+    <meta name='viewport'
+        content='width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no' />
     <meta name="renderer" content="webkit" />
     <meta name='apple-mobile-web-app-capable' content='yes' />
     <meta name='full-screen' content='true' />
@@ -25,13 +26,11 @@
     <!--提供了制作UI的各种组件实现-->
     <script type="text/javascript" src="libs/laya.ui.js"></script>
     <!--封装了webgl渲染管线，如果使用webgl渲染，可以在初始化时调用Laya.init(1000,800,laya.webgl.WebGL);-->
-    <!-- <script type="text/javascript" src="libs/laya.webgl.js"></script> -->
+    <script type="text/javascript" src="libs/laya.webgl.js"></script>
     <!--提供了微信小游戏的适配-->
     <!-- <script type="text/javascript" src="libs/laya.wxmini.js"></script> -->
     <!--提供了百度小游戏的适配 Laya版本1.8.0以上 -->
     <!-- <script type="text/javascript" src="libs/laya.bdmini.js"></script> -->
-    <!-- WebGL -->
-    <!--<script type="text/javascript" src="libs/laya.webgl.js"></script>-->
     <!-- 3D支持 -->
     <!--<script type="text/javascript" src="libs/laya.d3.js"></script>-->
     <!--包含更多webgl滤镜，比如外发光，阴影，模糊以及更多-->
@@ -47,16 +46,17 @@
     <!--用户自定义顺序文件添加到这里-->
     <!--jsfile--Custom-->
     <!-- include tape library -->
-    <script src="../node_modules/layaair-tape/dist/tape.js"></script>
+    <!-- <script src="../node_modules/layaair-tape/dist/tape.js"></script> -->
+    <script type="text/javascript" src="libs/tape.js"></script>
     <!--jsfile--Custom-->
 
     <!--自定义的js(src文件夹下)文件自动添加到下面jsfile模块标签里面里-->
     <!--删除标签，ide不会自动添加js文件，请谨慎操作-->
     <!--jsfile--startTag-->
+	<script src="js/common/common_toast.js"></script>
 	<script src="js/simple/activity_loading.js"></script>
 	<script src="js/simple/activity_main.js"></script>
-	<script src="js/simple/pop_test.js"></script>
-	<script src="js/simple/toast_test.js"></script>
+	<script src="js/simple/popup_test.js"></script>
 	<script src="js/ui/layaUI.max.all.js"></script>
 	<!--jsfile--endTag-->
 

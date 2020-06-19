@@ -1,21 +1,19 @@
 class MainActivity extends Tape.Activity {
 
-    ui = new ui.page.mainUI;
+    res = [];
+    ui = new ui.pages.mainUI;
+
+    fromProps = { alpha: 0 }
+    toProps = { alpha: 1 }
 
     onCreate() {
+        this.duration = 200;
         this.ui.btnPopup.on(Laya.Event.CLICK, this, () => {
-            Tape.popup.showPopup(TestPop, { data : "111"})
+            TestPopup.show();
         });
         this.ui.btnToast.on(Laya.Event.CLICK, this, () => {
-            Tape.toast.showToast(TestToast, { data : "111"})
+            CommonToast.show("TOAST提示")
         });
-        this.ui.btnMusic.on(Laya.Event.CLICK, this, () => {
-            Tape.audio.playMusic('res/sound/readygo.mp3', 0);
-        });
-    }
-
-    onDestroy(){
-        Tape.audio.stopAll();
     }
 
 }

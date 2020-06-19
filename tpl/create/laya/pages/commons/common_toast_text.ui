@@ -2,8 +2,7 @@
     "x":0,
     "type":"View",
     "selectedBox":1,
-    "selecteID":23,
-    "props":{"y":0,"x":-2,"width":750,"sceneColor":"#000000","height":1334},
+    "props":{"width":750,"sceneColor":"#000000","height":1334},
     "nodeParent":-1,
     "label":"View",
     "isOpen":true,
@@ -14,14 +13,14 @@
     "child":[
         {
             "x":15,
-            "type":"Button",
-            "props":{"y":689,"x":212,"width":335,"skin":"comp/button.png","label":"label","height":163},
+            "type":"Label",
+            "props":{"y":1000,"x":225,"wordWrap":true,"width":300,"var":"text","valign":"middle","text":"已通关","padding":"20,20,20,20","fontSize":30,"color":"#ffffff","bgColor":"#333333","align":"center"},
             "nodeParent":1,
-            "label":"Button",
+            "label":"Label(text)",
             "isDirectory":false,
             "isAniNode":true,
             "hasChild":false,
-            "compId":23,
+            "compId":2,
             "child":[
                 ]
         }],

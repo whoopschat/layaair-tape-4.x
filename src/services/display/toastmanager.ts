@@ -32,6 +32,7 @@ function showToast(toast, params = null, onHide = null) {
     view.onShow && view.onShow();
     let from = view.fromProps || { alpha: 0 };
     let to = view.toProps || { alpha: 1 };
+    let exit = view.exitProps || { alpha: 0 };
     let easeIn = view.easeIn || Laya.Ease.linearIn;
     let easeOut = view.easeOut || Laya.Ease.linearOut;
     let duration = view.duration;
@@ -41,7 +42,7 @@ function showToast(toast, params = null, onHide = null) {
         view.isShow = true;
     }), 0);
     if (displayDuration != -1) {
-        Laya.Tween.to(view, from, duration, easeOut, Laya.Handler.create(this, () => {
+        Laya.Tween.to(view, exit, duration, easeOut, Laya.Handler.create(this, () => {
             if (view) {
                 _popToast(toast, view);
                 view._on_hide && view._on_hide(view.toast);
