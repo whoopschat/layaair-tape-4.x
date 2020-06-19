@@ -148,6 +148,14 @@ declare module Tape {
         function sendEvent(type: any, args?: Array<any>): void;
     }
 
+    /** pipeline */
+    module pipeline {
+        /** put */
+        function put(type: string, func: Function): void;
+        /** next */
+        function next(type: string): void;
+    }
+
     /** runtime */
     module runtime {
         /** clickSound */
@@ -279,6 +287,8 @@ declare module Tape {
     class PopupView extends Laya.Sprite {
         /** show */
         static show(params?: any, onHide?: (pop, result?: any) => void): void;
+        /** pipeShow */
+        static pipeShow(params?: any, onHide?: (pop, result?: any) => void): void;
         /** hide */
         static hide(result?: any): void;
         /** pop */

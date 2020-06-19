@@ -25,7 +25,7 @@
   Usage: layaair-tape build [options]
     --input            input dir
     --output           output dir
-    --env              [Optional] development | production(prod)
+    --env              [Optional] dev | prod
     --platform         [Optional] h5 | quickgame | android
     --index            [Optional] index.html file def: index.html
     --version          [Optional] version code def: read package.json

@@ -80,13 +80,16 @@ function getClassName(obj) {
 /////  Env
 //////////////////////////
 
-let _env = 'prod';
+let _env = '${env}';
 
 function setEnv(env) {
     _env = env;
 }
 
 function getEnv() {
+    if (_env == "${env}") {
+        return "dev";
+    }
     return _env;
 }
 

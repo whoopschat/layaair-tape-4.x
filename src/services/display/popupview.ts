@@ -1,11 +1,21 @@
 import popup from "./popupmanager";
 import screen from "../manager/screen";
 import ui from "./ui";
+import pipeline from "../pipeline";
 
 export default class PopupView extends ui {
 
     static show(params, onHide) {
         popup.showPopup(this, params, onHide);
+    }
+
+    static pipeShow(params, onHide) {
+        pipeline.put("popup", () => {
+            popup.showPopup(this, params, (...params) => {
+                pipeline.next("popup");
+                onHide && onHide(...params);
+            });
+        })
     }
 
     static hide(result) {

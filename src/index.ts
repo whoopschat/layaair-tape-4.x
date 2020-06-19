@@ -6,6 +6,7 @@ import screen from "./services/manager/screen";
 import audio from './services/audio';
 import env from "./utils/env";
 import event from "./services/event";
+import pipeline from "./services/pipeline";
 import runtime from "./services/runtime";
 import utils from './services/utils';
 import navigator from "./services/navigator/stack";
@@ -27,8 +28,9 @@ const Tape = {
     audio,
     event,
     runtime,
-    utils,
+    pipeline,
     navigator,
+    utils,
     popup,
     toast,
     Activity,

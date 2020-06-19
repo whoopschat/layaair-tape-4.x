@@ -14,9 +14,9 @@ export function init(width: number, height: number, ...options) {
     }
     env.printDebug(`init...`);
     env.printDebug(`tape version: ${env.getVersion()}`);
-    env.printDebug(`app version: ${env.getAppVersion()}`);
+    env.printDebug(`app env: ${env.getEnv()}`);
     env.printDebug(`app debug: ${env.isDebug()}`);
-    env.printDebug(`env: ${env.getEnv()}`);
+    env.printDebug(`app version: ${env.getAppVersion()}`);
     initScreen(false, width, height, ...options);
     _inited = true;
 }
@@ -31,9 +31,9 @@ export function init3D(width: number, height: number, ...options) {
     }
     env.printDebug(`init3D...`);
     env.printDebug(`tape version: ${env.getVersion()}`);
-    env.printDebug(`app version: ${env.getAppVersion()}`);
+    env.printDebug(`app env: ${env.getEnv()}`);
     env.printDebug(`app debug: ${env.isDebug()}`);
-    env.printDebug(`env: ${env.getEnv()}`);
+    env.printDebug(`app version: ${env.getAppVersion()}`);
     initScreen(true, width, height, ...options);
     _inited = true;
 }

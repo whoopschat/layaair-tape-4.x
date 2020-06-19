@@ -31,13 +31,13 @@ if (!program.jsfile) {
 }
 
 if (program.env) {
-    if (program.env === 'prod' || program.env === 'production') {
-        program.env = 'production';
+    if (program.env === 'prod') {
+        program.env = 'prod';
     } else {
-        program.env = 'development';
+        program.env = 'dev';
     }
 } else {
-    program.env = 'development';
+    program.env = 'dev';
 }
 
 if (!program.cssfile) {
