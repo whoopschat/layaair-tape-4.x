@@ -1,7 +1,7 @@
 const path = require('path');
-const version = require('./package.json').version;
+const version = require('../package.json').version;
 
-const devOutputPath = path.resolve('./dist-dev');
+const devOutputPath = path.resolve('../dist-dev');
 
 const config = {
     entry: {

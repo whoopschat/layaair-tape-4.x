@@ -4,6 +4,7 @@ const UUID = require('../utils/uuid');
 
 const gulp = require('gulp');
 const gulpConcat = require('gulp-concat');
+const gulpBabel = require('gulp-babel');
 const gulpUglify = require('gulp-uglify');
 const gulpReplace = require('gulp-replace');
 const gulpDownloader = require('gulp-downloader');
@@ -39,10 +40,21 @@ const mergeJs = (htmlFile, outputDir, jsFile, uglify, replaces = []) => {
         loadFiles.push(...HtmlUtils.readLocalFiles({ file: htmlFile, selector: 'script', attribute: 'src', exclude: { build: ['unpack'] } }));
         if (loadFiles.length > 0) {
             var task = gulp.src(loadFiles);
-            task = task.pipe(gulpConcat(jsFile))
+            task = task.pipe(gulpBabel({
+                presets: [
+                    ['env', {
+                        loose: true,
+                        // debug: true,
+                    }],
+                ],
+                plugins: [
+                    'transform-class-properties',
+                ],
+            }))
             if (uglify) {
                 task = task.pipe(gulpUglify());
             }
+            task = task.pipe(gulpConcat(jsFile))
             replaces.forEach(replace => {
                 if (replace instanceof Array) {
                     task = task.pipe(gulpReplace(...replace));

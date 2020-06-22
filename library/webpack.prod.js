@@ -8,7 +8,7 @@ const config = Object.assign({}, devConfig, {
     mode: 'production',
 });
 
-config.output.path = path.resolve('./dist');
+config.output.path = path.resolve('../dist');
 
 
 module.exports = config;
