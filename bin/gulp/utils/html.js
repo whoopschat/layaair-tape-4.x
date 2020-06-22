@@ -23,24 +23,24 @@ const find_local_files = function (html, config) {
         let flag = true;
         if (config.filter) {
             Object.keys(config.filter).forEach(key => {
-                if ($(elem).has(key)){
-                    let filter = config.filter[key];
-                    if (filter instanceof Array){
-                        flag = flag && exclude.indexOf($(elem).attr(key)) >= 0;
+                if ($(elem).has(key)) {
+                    let fil = config.filter[key];
+                    if (fil instanceof Array) {
+                        flag = flag && fil.indexOf($(elem).attr(key)) >= 0;
                     } else {
-                        flag = flag && $(elem).attr(key) == filter;
+                        flag = flag && $(elem).attr(key) == fil;
                     }
                 }
             });
         }
         if (config.exclude) {
             Object.keys(config.exclude).forEach(key => {
-                if ($(elem).has(key)){
-                    let exclude = config.exclude[key];
-                    if (exclude instanceof Array){
-                        flag = flag && exclude.indexOf($(elem).attr(key)) < 0;
+                if ($(elem).has(key)) {
+                    let exc = config.exclude[key];
+                    if (exc instanceof Array) {
+                        flag = flag && exc.indexOf($(elem).attr(key)) < 0;
                     } else {
-                        flag = flag && $(elem).attr(key) != exclude;
+                        flag = flag && $(elem).attr(key) != exc;
                     }
                 }
             });
@@ -60,9 +60,9 @@ const find_remote_files = function (html, config) {
         let flag = true;
         if (config.filter) {
             Object.keys(config.filter).forEach(key => {
-                if ($(elem).has(key)){
+                if ($(elem).has(key)) {
                     let filter = config.filter[key];
-                    if (filter instanceof Array){
+                    if (filter instanceof Array) {
                         flag = flag && exclude.indexOf($(elem).attr(key)) >= 0;
                     } else {
                         flag = flag && $(elem).attr(key) == filter;
@@ -72,9 +72,9 @@ const find_remote_files = function (html, config) {
         }
         if (config.exclude) {
             Object.keys(config.exclude).forEach(key => {
-                if ($(elem).has(key)){
+                if ($(elem).has(key)) {
                     let exclude = config.exclude[key];
-                    if (exclude instanceof Array){
+                    if (exclude instanceof Array) {
                         flag = flag && exclude.indexOf($(elem).attr(key)) < 0;
                     } else {
                         flag = flag && $(elem).attr(key) != exclude;

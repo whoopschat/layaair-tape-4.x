@@ -31,6 +31,7 @@
     --version          [Optional] version code def: read package.json
     --cssfile          [Optional] cssfile def: style.css
     --jsfile           [Optional] jsfile def: code.js
+    --jschunk          [Optional] jschunk def: code.chunk.js
     --projectname      [Optional] project name
     --packagename      [Optional] android package name, def: 
     --orientation      [Optional] android screen orientation
@@ -42,6 +43,7 @@
     --zip              [Optional] [bool] zip build.zip
     --zip-name         [Optional] [bool] zip name, def:build.zip
     --min              [Optional] [bool] uglify js
+    --minchunk         [Optional] [bool] uglify chunk js
     --force            [Optional] [bool] ignore .lock file
     --x                [Optional] show this help
 ```

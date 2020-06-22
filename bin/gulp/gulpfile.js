@@ -19,7 +19,6 @@ const gulp = require('gulp');
 const minimist = require('minimist');
 const program = minimist(process.argv.slice(2), []);
 
-const jsFile = "code.js";
 const supportPlatform = ["h5", "quickgame", "android"]
 
 if (!program.platform) {
@@ -28,6 +27,10 @@ if (!program.platform) {
 
 if (!program.jsfile) {
     program.jsfile = 'code.js';
+}
+
+if (!program.jschunk) {
+    program.jschunk = 'code.chunk.js';
 }
 
 if (program.env) {
@@ -79,7 +82,8 @@ const initReplaceList = (htmlFile) => {
     replaceList.push(['${project_name}', projectname]);
     replaceList.push(['${package_name}', packagename]);
     replaceList.push(['${env}', program.env]);
-    replaceList.push(['${codeJs}', jsFile]);
+    replaceList.push(['${codeJs}', program.jsfile]);
+    replaceList.push(['${chunkJs}', program.jschunk]);
 }
 
 const begin = () => {
@@ -128,6 +132,7 @@ gulp.task('help', Empty.emptyTask(() => {
     console.log("  --version          [Optional] version code def: read package.json");
     console.log("  --cssfile          [Optional] cssfile def: style.css");
     console.log("  --jsfile           [Optional] jsfile def: code.js");
+    console.log("  --jschunk          [Optional] jschunk def: code.chunk.js");
     console.log("  --projectname      [Optional] project name");
     console.log("  --packagename      [Optional] android package name");
     console.log("  --orientation      [Optional] android screen orientation");
@@ -139,6 +144,7 @@ gulp.task('help', Empty.emptyTask(() => {
     console.log("  --zip              [Optional] [bool] gen zip");
     console.log("  --zip-name         [Optional] [bool] zip name, def:build.zip");
     console.log("  --min              [Optional] [bool] uglify js");
+    console.log("  --minchunk         [Optional] [bool] uglify chunk js");
     console.log("  --force            [Optional] [bool] ignore [platform].lock file");
     console.log("  --x                [Optional] show this help");
     console.log("");
@@ -153,11 +159,11 @@ gulp.task('template', Template.templateTask(`./tpl/build/${program.platform}`, p
 
 gulp.task('pngquant', Pngquant.pngquantTask(program.input, program.outputTemp, program.pngquant));
 
-gulp.task('mergeCss', Mergecss.mergeCssTask(`${program.input}/${program.index}`, program.outputTemp, program.cssfile, !program.obfuscate && program.min, replaceList));
+gulp.task('mergeCss', Mergecss.mergeCssTask(`${program.input}/${program.index}`, program.outputTemp, program.cssfile, program.min, replaceList));
 
-gulp.task('mergeJs', Mergejs.mergeJsTask(`${program.input}/${program.index}`, program.outputTemp, program.jsfile, !program.obfuscate && program.min, replaceList));
+gulp.task('mergeJs', Mergejs.mergeJsTask(`${program.input}/${program.index}`, program.outputTemp, program.jsfile, program.jschunk, program.min, program.minchunk, replaceList));
 
-gulp.task('inject', Injection.injectTask(program.index, program.outputTemp, program.cssfile, program.jsfile, program.injection, program['injection-append'], program.force));
+gulp.task('inject', Injection.injectTask(program.index, program.outputTemp, program.cssfile, program.jsfile, program.jschunk, program.injection, program['injection-append'], program.force));
 
 gulp.task('zip', Zipe.zipTask(program.outputTemp, program['zip-name'] || "build.zip"))
 
