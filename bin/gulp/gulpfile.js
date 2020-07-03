@@ -145,6 +145,8 @@ gulp.task('help', Empty.emptyTask(() => {
     console.log("  --zip-name         [Optional] [bool] zip name, def:build.zip");
     console.log("  --min              [Optional] [bool] uglify js");
     console.log("  --minchunk         [Optional] [bool] uglify chunk js");
+    console.log("  --babel            [Optional] [bool] babel js");
+    console.log("  --babelchunk       [Optional] [bool] babel chunk js");
     console.log("  --force            [Optional] [bool] ignore [platform].lock file");
     console.log("  --x                [Optional] show this help");
     console.log("");
@@ -161,7 +163,7 @@ gulp.task('pngquant', Pngquant.pngquantTask(program.input, program.outputTemp, p
 
 gulp.task('mergeCss', Mergecss.mergeCssTask(`${program.input}/${program.index}`, program.outputTemp, program.cssfile, program.min, replaceList));
 
-gulp.task('mergeJs', Mergejs.mergeJsTask(`${program.input}/${program.index}`, program.outputTemp, program.jsfile, program.jschunk, program.min, program.minchunk, replaceList));
+gulp.task('mergeJs', Mergejs.mergeJsTask(`${program.input}/${program.index}`, program.outputTemp, program.jsfile, program.jschunk, program.min, program.minchunk, program.babel, program.babelchunk, replaceList));
 
 gulp.task('inject', Injection.injectTask(program.index, program.outputTemp, program.cssfile, program.jsfile, program.jschunk, program.injection, program['injection-append'], program.force));
 
