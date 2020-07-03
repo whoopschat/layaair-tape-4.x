@@ -9,8 +9,8 @@ const gulpUglify = require('gulp-uglify');
 const gulpReplace = require('gulp-replace');
 const gulpDownloader = require('gulp-downloader');
 
-const chunkRemoteFiles = [];
-const remoteFiles = [];
+const _chunkRemoteFiles = [];
+const _remoteFiles = [];
 
 const downloadChunkRemoteJs = (htmlFile, tempDir) => {
     return (done) => {
@@ -18,7 +18,7 @@ const downloadChunkRemoteJs = (htmlFile, tempDir) => {
         var downloads = [];
         remoteFiles.forEach(file => {
             let fileName = ".temp/" + UUID.gid();
-            commonRemoteFiles.push(tempDir + '/' + fileName);
+            _chunkRemoteFiles.push(tempDir + '/' + fileName);
             downloads.push({
                 fileName,
                 request: {
@@ -37,7 +37,7 @@ const downloadChunkRemoteJs = (htmlFile, tempDir) => {
 
 const mergeChunkJs = (htmlFile, outputDir, jsFile, uglify, replaces = []) => {
     return (done) => {
-        var loadFiles = [...chunkRemoteFiles];
+        var loadFiles = [..._chunkRemoteFiles];
         loadFiles.push(...HtmlUtils.readLocalFiles({ file: htmlFile, selector: 'script', attribute: 'src', filter: { build: 'chunk' } }));
         if (loadFiles.length > 0) {
             var task = gulp.src(loadFiles);
@@ -64,7 +64,7 @@ const downloadRemoteJs = (htmlFile, tempDir) => {
         var downloads = [];
         remoteFiles.forEach(file => {
             let fileName = ".temp/" + UUID.gid();
-            remoteFiles.push(tempDir + '/' + fileName);
+            _remoteFiles.push(tempDir + '/' + fileName);
             downloads.push({
                 fileName,
                 request: {
@@ -83,7 +83,7 @@ const downloadRemoteJs = (htmlFile, tempDir) => {
 
 const mergeJs = (htmlFile, outputDir, jsFile, uglify, replaces = []) => {
     return (done) => {
-        var loadFiles = [...remoteFiles];
+        var loadFiles = [..._remoteFiles];
         loadFiles.push(...HtmlUtils.readLocalFiles({ file: htmlFile, selector: 'script', attribute: 'src', exclude: { build: ['unpack', 'chunk'] } }));
         if (loadFiles.length > 0) {
             var task = gulp.src(loadFiles);
