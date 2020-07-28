@@ -7,28 +7,26 @@ const gulpConcat = require('gulp-concat');
 const gulpBabel = require('gulp-babel');
 const gulpUglify = require('gulp-uglify');
 const gulpReplace = require('gulp-replace');
-const gulpDownloader = require('gulp-downloader');
+const { download } = require('../utils/down');
 
 const _chunkRemoteFiles = [];
 const _remoteFiles = [];
+
 
 const downloadChunkRemoteJs = (htmlFile, tempDir) => {
     return (done) => {
         var remoteFiles = HtmlUtils.readRemoteFiles({ file: htmlFile, selector: 'script', attribute: 'src', filter: { build: 'chunk' } });
         var downloads = [];
         remoteFiles.forEach(file => {
-            let fileName = ".temp/" + UUID.gid();
+            let fileName = ".js_temp/" + UUID.gid() + ".js";
             _chunkRemoteFiles.push(tempDir + '/' + fileName);
             downloads.push({
-                fileName,
-                request: {
-                    url: file
-                }
+                url: file,
+                name: fileName
             });
         });
         if (downloads.length > 0) {
-            return gulpDownloader(downloads)
-                .pipe(gulp.dest(tempDir));
+            download(downloads, tempDir, done);
         } else {
             done();
         }
@@ -72,18 +70,15 @@ const downloadRemoteJs = (htmlFile, tempDir) => {
         var remoteFiles = HtmlUtils.readRemoteFiles({ file: htmlFile, selector: 'script', attribute: 'src', exclude: { build: ['unpack', 'chunk'] } });
         var downloads = [];
         remoteFiles.forEach(file => {
-            let fileName = ".temp/" + UUID.gid();
+            let fileName = ".js_temp/" + UUID.gid() + ".js";
             _remoteFiles.push(tempDir + '/' + fileName);
             downloads.push({
-                fileName,
-                request: {
-                    url: file
-                }
+                url: file,
+                name: fileName
             });
         });
         if (downloads.length > 0) {
-            return gulpDownloader(downloads)
-                .pipe(gulp.dest(tempDir));
+            download(downloads, tempDir, done);
         } else {
             done();
         }
@@ -124,7 +119,7 @@ const mergeJs = (htmlFile, outputDir, jsFile, uglify, babel, replaces = []) => {
 
 const cleanTemp = (outputDir) => {
     return (done) => {
-        FileUtils.deleteFolderSync(outputDir + '/.temp');
+        FileUtils.deleteFolderSync(outputDir + '/.js_temp');
         done();
     }
 }

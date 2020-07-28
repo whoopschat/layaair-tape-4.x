@@ -6,7 +6,7 @@ const gulp = require('gulp');
 const gulpConcat = require('gulp-concat');
 const gulpCssmin = require('gulp-minify-css');
 const gulpReplace = require('gulp-replace');
-const gulpDownloader = require('gulp-downloader');
+const { download } = require('../utils/down');
 
 const remoteFiles = [];
 
@@ -15,18 +15,15 @@ const downloadRemoteCss = (htmlFile, tempDir) => {
         var remoteFiles = HtmlUtils.readRemoteFiles({ file: htmlFile, selector: 'link', attribute: 'href', filter: { rel: 'stylesheet' } });
         var downloads = [];
         remoteFiles.forEach(file => {
-            let fileName = ".temp/" + UUID.gid();
+            let fileName = ".css_temp/" + UUID.gid() + ".css";
             remoteFiles.push(tempDir + '/' + fileName);
             downloads.push({
-                fileName,
-                request: {
-                    url: file
-                }
+                url: file,
+                name: fileName
             });
         });
         if (downloads.length > 0) {
-            return gulpDownloader(downloads)
-                .pipe(gulp.dest(tempDir));
+            download(downloads, tempDir, done);
         } else {
             done();
         }
@@ -57,7 +54,7 @@ const mergeCss = (htmlFile, outputDir, cssFile, uglify, replaces = []) => {
 
 const cleanTemp = (outputDir) => {
     return (done) => {
-        FileUtils.deleteFolderSync(outputDir + '/.temp');
+        FileUtils.deleteFolderSync(outputDir + '/.css_temp');
         done();
     }
 }
