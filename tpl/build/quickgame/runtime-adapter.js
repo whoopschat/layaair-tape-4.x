@@ -323,9 +323,11 @@ window.getAdapterInfo = function (config) {
             scaleX = vw / w;
             scaleY = vh / h;
             break;
-
         case "fixedwidth":
             scaleX = scaleY = vw / w;
+            break;
+        case "fixedheight":
+            scaleX = scaleY = vh / h;
             break;
     }
     return {

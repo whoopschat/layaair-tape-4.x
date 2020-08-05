@@ -2,8 +2,9 @@ const path = require('path');
 const gulp = require('gulp');
 const gulpCheerio = require('gulp-cheerio');
 const FileUtils = require('../utils/file');
+const HtmlUtils = require('../utils/html');
 
-const injectTask = (htmlFile, outputDir, cssFile, jsFile, jsChunk, injectionJs, appendInjectionJs, force) => {
+const injectTask = (indexFile, htmlFile, outputDir, cssFile, jsFile, jsChunk, injectionJs, appendInjectionJs, force) => {
     return (done) => {
         let indexHtml = path.join(outputDir, htmlFile);
         if (FileUtils.existsSync(indexHtml) && force) {
@@ -22,6 +23,12 @@ const injectTask = (htmlFile, outputDir, cssFile, jsFile, jsChunk, injectionJs, 
                         $('body').prepend('<script src="' + jsChunk + '"></script>');
                     }))
                 }
+            }
+            var remoteFiles = HtmlUtils.readRemoteFiles({ file: indexFile, selector: 'script', attribute: 'src', filter: { build: 'unpack' } });
+            for (let index = 0; index < remoteFiles.length; index++) {
+                pipe = pipe.pipe(gulpCheerio(function ($) {
+                    $('body').prepend('<script src="' + remoteFiles[index] + '"></script>');
+                }))
             }
             if (injectionJs) {
                 pipe = pipe.pipe(gulpCheerio(function ($) {

@@ -32,6 +32,7 @@
     --cssfile          [Optional] cssfile def: style.css
     --jsfile           [Optional] jsfile def: code.js
     --jschunk          [Optional] jschunk def: code.chunk.js
+    --jsunpack         [Optional] jsunpack def: code.unpack.js
     --projectname      [Optional] project name
     --packagename      [Optional] android package name, def: 
     --orientation      [Optional] android screen orientation

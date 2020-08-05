@@ -33,6 +33,10 @@ if (!program.jschunk) {
     program.jschunk = 'code.chunk.js';
 }
 
+if (!program.jsunpack) {
+    program.jsunpack = 'code.unpack.js';
+}
+
 if (program.env) {
     if (program.env === 'prod') {
         program.env = 'prod';
@@ -84,6 +88,7 @@ const initReplaceList = (htmlFile) => {
     replaceList.push(['${env}', program.env]);
     replaceList.push(['${codeJs}', program.jsfile]);
     replaceList.push(['${chunkJs}', program.jschunk]);
+    replaceList.push(['${unpackJs}', program.jsunpack]);
 }
 
 const begin = () => {
@@ -163,9 +168,9 @@ gulp.task('pngquant', Pngquant.pngquantTask(program.input, program.outputTemp, p
 
 gulp.task('mergeCss', Mergecss.mergeCssTask(`${program.input}/${program.index}`, program.outputTemp, program.cssfile, program.min, replaceList));
 
-gulp.task('mergeJs', Mergejs.mergeJsTask(`${program.input}/${program.index}`, program.outputTemp, program.jsfile, program.jschunk, program.min, program.minchunk, program.babel, program.babelchunk, replaceList));
+gulp.task('mergeJs', Mergejs.mergeJsTask(`${program.input}/${program.index}`, program.outputTemp, program.jsfile, program.jschunk, program.jsunpack, program.min, program.minchunk, program.babel, program.babelchunk, replaceList));
 
-gulp.task('inject', Injection.injectTask(program.index, program.outputTemp, program.cssfile, program.jsfile, program.jschunk, program.injection, program['injection-append'], program.force));
+gulp.task('inject', Injection.injectTask(`${program.input}/${program.index}`, program.index, program.outputTemp, program.cssfile, program.jsfile, program.jschunk, program.injection, program['injection-append'], program.force));
 
 gulp.task('zip', Zipe.zipTask(program.outputTemp, program['zip-name'] || "build.zip"))
 

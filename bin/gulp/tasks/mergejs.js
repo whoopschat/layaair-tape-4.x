@@ -10,16 +10,26 @@ const gulpReplace = require('gulp-replace');
 const { download } = require('../utils/down');
 
 const _chunkRemoteFiles = [];
+const _unackRemoteFiles = [];
 const _remoteFiles = [];
 
+const _files = {
+    chunk: [],
+    unpack: [],
+    default: []
+}
 
-const downloadChunkRemoteJs = (htmlFile, tempDir) => {
+const downloadRemoteJs = (htmlFile, tempDir, type) => {
     return (done) => {
-        var remoteFiles = HtmlUtils.readRemoteFiles({ file: htmlFile, selector: 'script', attribute: 'src', filter: { build: 'chunk' } });
+        var key = type || 'default';
+        if (!_files[key]) {
+            _files[key] = [];
+        }
+        var remoteFiles = HtmlUtils.readRemoteFiles({ file: htmlFile, selector: 'script', attribute: 'src', filter: { build: type } });
         var downloads = [];
         remoteFiles.forEach(file => {
             let fileName = ".js_temp/" + UUID.gid() + ".js";
-            _chunkRemoteFiles.push(tempDir + '/' + fileName);
+            _files[key].push(tempDir + '/' + fileName);
             downloads.push({
                 url: file,
                 name: fileName
@@ -33,62 +43,14 @@ const downloadChunkRemoteJs = (htmlFile, tempDir) => {
     }
 }
 
-const mergeChunkJs = (htmlFile, outputDir, jsFile, uglify, babel, replaces = []) => {
+const mergeJs = (htmlFile, outputDir, jsFile, uglify, babel, replaces = [], type) => {
     return (done) => {
-        var loadFiles = [..._chunkRemoteFiles];
-        loadFiles.push(...HtmlUtils.readLocalFiles({ file: htmlFile, selector: 'script', attribute: 'src', filter: { build: 'chunk' } }));
-        if (loadFiles.length > 0) {
-            var task = gulp.src(loadFiles);
-            if (babel) {
-                task = task.pipe(gulpBabel({
-                    presets: [
-                        ['env', {
-                            loose: true
-                        }],
-                    ]
-                }))
-            }
-            if (uglify) {
-                task = task.pipe(gulpUglify());
-            }
-            task = task.pipe(gulpConcat(jsFile))
-            replaces.forEach(replace => {
-                if (replace instanceof Array) {
-                    task = task.pipe(gulpReplace(...replace));
-                }
-            });
-            return task.pipe(gulp.dest(outputDir));
-        } else {
-            FileUtils.createFileSync(path.join(outputDir, jsFile), "console.log(\"empty file: " + jsFile + "\")");
-            done();
+        var key = type || 'default';
+        if (!_files[key]) {
+            _files[key] = [];
         }
-    }
-}
-
-const downloadRemoteJs = (htmlFile, tempDir) => {
-    return (done) => {
-        var remoteFiles = HtmlUtils.readRemoteFiles({ file: htmlFile, selector: 'script', attribute: 'src', exclude: { build: ['unpack', 'chunk'] } });
-        var downloads = [];
-        remoteFiles.forEach(file => {
-            let fileName = ".js_temp/" + UUID.gid() + ".js";
-            _remoteFiles.push(tempDir + '/' + fileName);
-            downloads.push({
-                url: file,
-                name: fileName
-            });
-        });
-        if (downloads.length > 0) {
-            download(downloads, tempDir, done);
-        } else {
-            done();
-        }
-    }
-}
-
-const mergeJs = (htmlFile, outputDir, jsFile, uglify, babel, replaces = []) => {
-    return (done) => {
-        var loadFiles = [..._remoteFiles];
-        loadFiles.push(...HtmlUtils.readLocalFiles({ file: htmlFile, selector: 'script', attribute: 'src', exclude: { build: ['unpack', 'chunk'] } }));
+        var loadFiles = [..._files[key]];
+        loadFiles.push(...HtmlUtils.readLocalFiles({ file: htmlFile, selector: 'script', attribute: 'src', filter: { build: type } }));
         if (loadFiles.length > 0) {
             var task = gulp.src(loadFiles);
             if (babel) {
@@ -124,17 +86,21 @@ const cleanTemp = (outputDir) => {
     }
 }
 
-const mergeJsTask = (htmlFile, outputDir, jsFile, jsChunk, uglify, chunkUglify, babel, chunkBabel, replaces) => {
-    gulp.task('mergeJs-downloadRemoteJs', downloadRemoteJs(htmlFile, outputDir));
-    gulp.task('mergeJs-mergeJs', mergeJs(htmlFile, outputDir, jsFile, uglify, babel, replaces));
-    gulp.task('mergeJs-downloadChunkRemoteJs', downloadChunkRemoteJs(htmlFile, outputDir));
-    gulp.task('mergeJs-mergeChunkJs', mergeChunkJs(htmlFile, outputDir, jsChunk, chunkUglify, chunkBabel, replaces));
+const mergeJsTask = (htmlFile, outputDir, jsFile, jsChunk, jsUnpack, uglify, chunkUglify, babel, chunkBabel, replaces) => {
+    gulp.task('mergeJs-downloadRemoteJs', downloadRemoteJs(htmlFile, outputDir, undefined));
+    gulp.task('mergeJs-mergeJs', mergeJs(htmlFile, outputDir, jsFile, uglify, babel, replaces, undefined));
+    gulp.task('mergeJs-downloadChunkRemoteJs', downloadRemoteJs(htmlFile, outputDir, "chunk"));
+    gulp.task('mergeJs-mergeChunkJs', mergeJs(htmlFile, outputDir, jsChunk, chunkUglify, chunkBabel, replaces, "chunk"));
+    gulp.task('mergeJs-downloadUnpackRemoteJs', downloadRemoteJs(htmlFile, outputDir, "unpack"));
+    gulp.task('mergeJs-mergeUnpackJs', mergeJs(htmlFile, outputDir, jsUnpack, false, false, [], "unpack"));
     gulp.task('mergeJs-cleanTemp', cleanTemp(outputDir));
     return gulp.series([
         'mergeJs-downloadRemoteJs',
         'mergeJs-mergeJs',
         'mergeJs-downloadChunkRemoteJs',
         'mergeJs-mergeChunkJs',
+        'mergeJs-downloadUnpackRemoteJs',
+        'mergeJs-mergeUnpackJs',
         'mergeJs-cleanTemp'
     ]);
 }

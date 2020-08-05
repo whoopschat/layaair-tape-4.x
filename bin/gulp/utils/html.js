@@ -30,6 +30,8 @@ const find_local_files = function (html, config) {
                     } else {
                         flag = flag && $(elem).attr(key) == fil;
                     }
+                } else {
+                    flag = flag && !config.filter[key];
                 }
             });
         }
@@ -42,6 +44,8 @@ const find_local_files = function (html, config) {
                     } else {
                         flag = flag && $(elem).attr(key) != exc;
                     }
+                } else {
+                    flag = flag && !!config.exclude[key];
                 }
             });
         }
@@ -67,6 +71,8 @@ const find_remote_files = function (html, config) {
                     } else {
                         flag = flag && $(elem).attr(key) == filter;
                     }
+                } else {
+                    flag = flag && !config.filter[key];
                 }
             });
         }
@@ -79,6 +85,8 @@ const find_remote_files = function (html, config) {
                     } else {
                         flag = flag && $(elem).attr(key) != exclude;
                     }
+                } else {
+                    flag = flag && !!config.exclude[key];
                 }
             });
         }
