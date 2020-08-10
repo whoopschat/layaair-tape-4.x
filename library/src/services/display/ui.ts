@@ -1,4 +1,4 @@
-import screen from "../manager/screen";
+import Screen from "../manager/screen";
 
 export default class ui extends Laya.Component {
 
@@ -111,10 +111,10 @@ export default class ui extends Laya.Component {
             return;
         }
         this._bgSprite = new Laya.Sprite();
-        this._bgSprite.x = -screen.getOffestX();
-        this._bgSprite.y = -screen.getOffestY();
-        this._bgSprite.width = screen.getWidth();
-        this._bgSprite.height = screen.getHeight();
+        this._bgSprite.x = -Screen.getOffestX();
+        this._bgSprite.y = -Screen.getOffestY();
+        this._bgSprite.width = Screen.getWidth();
+        this._bgSprite.height = Screen.getHeight();
         this.addChildAt(this._bgSprite, 0);
         this.refreshBg();
         this.refreshCanceledOnTouchOutside();

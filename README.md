@@ -45,6 +45,7 @@
     --zip-name         [Optional] [bool] zip name, def:build.zip
     --min              [Optional] [bool] uglify js
     --minchunk         [Optional] [bool] uglify chunk js
+    --mergeunpack      [Optional] [bool] merge unpack js
     --babel            [Optional] [bool] babel js
     --babelchunk       [Optional] [bool] babel chunk js
     --force            [Optional] [bool] ignore .lock file

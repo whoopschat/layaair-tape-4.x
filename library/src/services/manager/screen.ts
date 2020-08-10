@@ -1,52 +1,63 @@
-import { initBg } from "./bg";
-import { initUI } from "./uimgr";
+import { initBg, resizeBg } from "./bg";
+import { initUI, resizeUI } from "./uimgr";
 
-let _offset_x = 0;
-let _offset_y = 0;
+let _clientWidth = 0;
+let _clientHeight = 0;
 let _design_width = 0;
 let _design_height = 0;
 let _deviation = 0.01;
 
+function size() {
+    _clientWidth = window.innerWidth || laya.utils.Browser.clientWidth;
+    _clientHeight = window.innerHeight || laya.utils.Browser.clientHeight;
+    let screenRatio = 1;
+    if (_clientWidth > _clientHeight) {
+        screenRatio = _clientWidth / _clientHeight
+    } else {
+        screenRatio = _clientHeight / _clientWidth
+    }
+    let initRatio = _design_height / _design_width;
+    let initWidth = _design_width;
+    let initHeight = _design_height;
+    if (Math.abs(screenRatio / initRatio - 1) > _deviation) {
+        if (screenRatio > initRatio) {
+            initHeight = _design_width * screenRatio;
+        } else if (screenRatio < initRatio) {
+            initWidth = _design_height / screenRatio;
+        }
+    }
+    return { initHeight, initWidth }
+}
+
 export function initScreen(is3D, width, height, ...options) {
     _design_width = width;
     _design_height = height;
-    let screenRatio = Laya.Browser.clientHeight / laya.utils.Browser.clientWidth;
-    let initRatio = height / width;
-    let initWidth = width;
-    let initHeight = height;
-    _offset_x = 0;
-    _offset_y = 0;
-    if (Math.abs(screenRatio / initRatio - 1) > _deviation) {
-        if (screenRatio > initRatio) {
-            initHeight = width * screenRatio;
-            _offset_y = (initHeight - height) / 2;
-        } else if (screenRatio < initRatio) {
-            initWidth = height / screenRatio;
-            _offset_x = (initWidth - width) / 2;
-        }
-    }
+    let { initHeight, initWidth } = size();
     if (is3D) {
         Laya3D.init.apply(this, [initWidth, initHeight, ...options]);
     } else {
         Laya.init.apply(this, [initWidth, initHeight, ...options]);
     }
     Laya.stage.scaleMode = Laya.Stage.SCALE_EXACTFIT;
+    if (width > height) {
+        Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL;
+    } else {
+        Laya.stage.screenMode = Laya.Stage.SCREEN_VERTICAL;
+    }
     Laya.stage.alignH = Laya.Stage.ALIGN_CENTER;
     Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
-    adapter();
-    initBg();
-    initUI(_offset_x, _offset_y)
-}
-
-function adapter() {
+    Laya.stage.on(Laya.Event.RESIZE, null, () => {
+        resizeUI();
+        resizeBg();
+    });
     if (typeof window['getAdapterInfo'] !== "undefined") {
         var stage = Laya.stage;
-        var info = window['getAdapterInfo']({ width: getWidth(), height: getHeight(), scaleMode: getScaleMode() });
-        stage.designWidth = info.w;
-        stage.designHeight = info.h;
+        var info = window['getAdapterInfo']({ width: getDesignWidth(), height: getDesignHeight(), scaleMode: Laya.stage.scaleMode });
         stage.width = info.rw;
-        stage.height = info.rh; stage.scale(info.scaleX, info.scaleY);
+        stage.height = info.rh;
     }
+    initBg();
+    initUI();
 }
 
 function getWidth() {
@@ -57,18 +68,6 @@ function getHeight() {
     return Laya.stage.height;
 }
 
-function getScaleMode() {
-    return Laya.stage.scaleMode;
-}
-
-function getOffestX() {
-    return _offset_x;
-}
-
-function getOffestY() {
-    return _offset_y;
-}
-
 function getDesignWidth() {
     return _design_width;
 }
@@ -77,15 +76,41 @@ function getDesignHeight() {
     return _design_height;
 }
 
+function getScale() {
+    let width = getWidth();
+    let height = getHeight();
+    let designWidth = getDesignWidth();
+    let designHeight = getDesignHeight();
+    return Math.min(width / designWidth, height / designHeight);
+}
+
+function getOffestX() {
+    let scale = getScale();
+    let width = getWidth();
+    let height = getHeight();
+    if (width > height) {
+        return (height - _design_height * scale) / 2;
+    }
+    return (width - _design_width * scale) / 2;
+}
+
+function getOffestY() {
+    let scale = getScale();
+    let width = getWidth();
+    let height = getHeight();
+    if (width > height) {
+        return (width - _design_width * scale) / 2;
+    }
+    return (height - _design_height * scale) / 2;
+}
 function setDeviation(deviation) {
     _deviation = deviation;
 }
 
 export default {
-    adapter,
     getWidth,
     getHeight,
-    getScaleMode,
+    getScale,
     getOffestX,
     getOffestY,
     getDesignWidth,

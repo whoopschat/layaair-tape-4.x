@@ -30,6 +30,9 @@ function onLoadComplet(path, mc, play, loop, loadComplet, thisRef) {
 }
 
 function remove(mc: Laya.MovieClip) {
+    if (!mc) {
+        return;
+    }
     mc.scaleX = mc.scaleY = 1;
     mc.pivotX = mc.pivotY = 0;
     mc["anchorX"] = mc["anchorY"] = 0;

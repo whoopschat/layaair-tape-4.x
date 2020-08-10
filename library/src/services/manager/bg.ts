@@ -16,6 +16,17 @@ function _drawSkin() {
     }
 }
 
+export function resizeBg() {
+    if (_bgSprite) {
+        _bgSprite.width = screen.getWidth();
+        _bgSprite.height = screen.getHeight();
+    }
+    if (_bgImage) {
+        _bgImage.width = screen.getWidth();
+        _bgImage.height = screen.getHeight();
+    }
+}
+
 export function initBg() {
     _bgSprite = Laya.stage.getChildByName('_tape_bg_layer') as Laya.Sprite;
     if (!_bgSprite) {

@@ -1,17 +1,33 @@
 import { setFocus } from "../navigator/stack";
 import NavLoader from "../navigator/loader";
+import Screen from "./screen";
 
 let _inited = false;
 let _uiManager: Laya.Sprite;
 let _mainUILayer: Laya.Sprite;
 let _topUILayer: Laya.Sprite;
+let _scale = 1;
 let _offsetX = 0;
 let _offsetY = 0;
 
-export function initUI(offsetX, offsetY) {
-    _offsetX = offsetX;
-    _offsetY = offsetY;
+export function initUI() {
     _checkInit();
+}
+
+export function resizeUI() {
+    _scale = Screen.getScale();
+    _offsetX = Screen.getOffestX();
+    _offsetY = Screen.getOffestY();
+    if (_mainUILayer) {
+        _mainUILayer.x = _offsetX;
+        _mainUILayer.y = _offsetY;
+    }
+    if (_topUILayer) {
+        _topUILayer.x = _offsetX;
+        _topUILayer.y = _offsetY;
+    }
+    _uiManager.scaleX = _scale;
+    _uiManager.scaleY = _scale;
 }
 
 function _checkInit() {
@@ -27,10 +43,7 @@ function _checkInit() {
         Laya.stage.addChild(_uiManager);
         _inited = true;
     }
-    _mainUILayer.x = _offsetX;
-    _mainUILayer.y = _offsetY;
-    _topUILayer.x = _offsetX;
-    _topUILayer.y = _offsetY;
+    resizeUI();
 }
 
 function checkFocus() {

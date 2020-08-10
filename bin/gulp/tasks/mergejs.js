@@ -9,10 +9,6 @@ const gulpUglify = require('gulp-uglify');
 const gulpReplace = require('gulp-replace');
 const { download } = require('../utils/down');
 
-const _chunkRemoteFiles = [];
-const _unackRemoteFiles = [];
-const _remoteFiles = [];
-
 const _files = {
     chunk: [],
     unpack: [],

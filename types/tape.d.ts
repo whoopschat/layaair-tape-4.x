@@ -5,8 +5,30 @@ declare module Tape {
         [key: string]: any
     }
 
-    /** StartPayload */
-    interface StartPayload {
+    /** ActivityOptions */
+    interface ActivityOptions {
+        /** res */
+        res?: { url: string, type: string }[];
+        /** single */
+        single?: boolean;
+        /** ui */
+        ui?: any;
+        /** activity on focus change */
+        onFocus?(focus: boolean): void;
+        /** activity on create */
+        onCreate?(): void;
+        /** activity on resume */
+        onResume?(): void;
+        /** activity on pause */
+        onPause?(): void;
+        /** activity on destroy */
+        onDestroy?(): void;
+        /** activity on next page load progress */
+        onNextProgress?(progress: number): void;
+    }
+
+    /** StartOptions */
+    interface StartOptions {
         mainPage?: any;
         commonRes?: { url: string, type: string }[];
         fileVersion?: string;
@@ -38,7 +60,7 @@ declare module Tape {
     /** init for 3D */
     function init3D(width: number, height: number, ...options): void;
     /** start */
-    function start(options: StartPayload | null, onLoaded?: () => void): void;
+    function start(options: StartOptions | any, onLoaded?: () => void): void;
 
     /** env */
     module env {
@@ -88,22 +110,20 @@ declare module Tape {
 
     /** screen */
     module screen {
-        /** adapter */
-        function adapter(): void;
         /** getWidth */
         function getWidth(): number;
         /** getHeight */
         function getHeight(): number;
-        /** getScaleMode */
-        function getScaleMode(): string;
-        /** getOffestX */
-        function getOffestX(): number;
-        /** getOffestY */
-        function getOffestY(): number;
         /** getDesignWidth */
         function getDesignWidth(): number;
         /** getDesignHeight */
         function getDesignHeight(): number;
+        /** getScale */
+        function getScale(): number;
+        /** getOffestX */
+        function getOffestX(): number;
+        /** getOffestY */
+        function getOffestY(): number;
         /** setDeviation */
         function setDeviation(deviation: number): void;
     }
@@ -221,6 +241,8 @@ declare module Tape {
     /** Activity */
     class Activity extends Laya.Component {
 
+        /** create */
+        static create(options: ActivityOptions): any;
         /** open */
         static open(params?: any, action?: () => void): void;
         /** finish */

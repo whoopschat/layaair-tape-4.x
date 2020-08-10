@@ -150,6 +150,7 @@ gulp.task('help', Empty.emptyTask(() => {
     console.log("  --zip-name         [Optional] [bool] zip name, def:build.zip");
     console.log("  --min              [Optional] [bool] uglify js");
     console.log("  --minchunk         [Optional] [bool] uglify chunk js");
+    console.log("  --mergeunpack      [Optional] [bool] merge unpack js");
     console.log("  --babel            [Optional] [bool] babel js");
     console.log("  --babelchunk       [Optional] [bool] babel chunk js");
     console.log("  --force            [Optional] [bool] ignore [platform].lock file");
@@ -170,7 +171,7 @@ gulp.task('mergeCss', Mergecss.mergeCssTask(`${program.input}/${program.index}`,
 
 gulp.task('mergeJs', Mergejs.mergeJsTask(`${program.input}/${program.index}`, program.outputTemp, program.jsfile, program.jschunk, program.jsunpack, program.min, program.minchunk, program.babel, program.babelchunk, replaceList));
 
-gulp.task('inject', Injection.injectTask(`${program.input}/${program.index}`, program.index, program.outputTemp, program.cssfile, program.jsfile, program.jschunk, program.injection, program['injection-append'], program.force));
+gulp.task('inject', Injection.injectTask(`${program.input}/${program.index}`, program.index, program.outputTemp, program.cssfile, program.jsfile, program.jschunk, program.jsunpack, program.mergeunpack, program.injection, program['injection-append'], program.force));
 
 gulp.task('zip', Zipe.zipTask(program.outputTemp, program['zip-name'] || "build.zip"))
 

@@ -4,6 +4,47 @@ import screen from "../manager/screen";
 
 export default class Activity extends ui {
 
+    static create(opts) {
+        class NewAct extends Activity {
+
+            opts = null;
+
+            constructor(options) {
+                super(options);
+                this.opts = opts || {};
+                Object.assign(this, this.opts);
+                NewAct.single = this.opts.single;
+                NewAct.res = this.opts.res;
+            }
+
+            onCreate() {
+                this.opts.onCreate && this.opts.onCreate();
+            }
+
+            onPause() {
+                this.opts.onPause && this.opts.onPause();
+            }
+
+            onResume() {
+                this.opts.onResume && this.opts.onResume();
+            }
+
+            onDestroy() {
+                this.opts.onDestroy && this.opts.onDestroy();
+            }
+
+            onFocus(focus) {
+                this.opts.onFocus && this.opts.onFocus(focus);
+            }
+
+            onNextProgress(progress) {
+                this.opts.onNextProgress && this.opts.onNextProgress(progress);
+            }
+
+        }
+        return NewAct;
+    }
+
     static open(params, action) {
         NavStack.navigate(this, params, action);
     }
@@ -15,6 +56,7 @@ export default class Activity extends ui {
     static res = [];
     static single = false;
 
+    public ui = new Laya.Component;
     public page = null;
     public params = {};
     public duration = 0;
