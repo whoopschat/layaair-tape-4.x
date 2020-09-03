@@ -4,7 +4,6 @@ const path = require('path');
 const File = require('./utils/file');
 const Html = require('./utils/html');
 const Empty = require('./tasks/empty');
-const Test = require('./tasks/bin');
 const Clean = require('./tasks/clean');
 const Resources = require('./tasks/resources');
 const Pngquant = require('./tasks/pngquant');
@@ -19,7 +18,7 @@ const gulp = require('gulp');
 const minimist = require('minimist');
 const program = minimist(process.argv.slice(2), []);
 
-const supportPlatform = ["h5", "quickgame", "android"]
+const supportPlatform = ["h5", "wx", "tt", "quickgame", "android"]
 
 if (!program.platform) {
     program.platform = 'h5';
@@ -79,7 +78,11 @@ const initReplaceList = (htmlFile) => {
     let projectname = program.projectname || Html.readValue({ file: htmlFile, selector: 'title' }, "Game");
     let orientation = program.orientation || Html.readValue({ file: htmlFile, selector: 'meta', attribute: 'screenorientation' }, "portrait");
     let packagename = program.packagename || Html.readValue({ file: htmlFile, selector: 'meta', attribute: 'packagename' }, "com.tapegame");
+    let wx_app_id = program.wx_app_id || Html.readValue({ file: htmlFile, selector: 'meta', attribute: 'wx_app_id' }, "touristappid");
+    let tt_app_id = program.tt_app_id || Html.readValue({ file: htmlFile, selector: 'meta', attribute: 'tt_app_id' }, "testappId");
     let bg_color = program.bgcolor ? program.bgcolor : "#000000";
+    replaceList.push(['${wx_app_id}', wx_app_id]);
+    replaceList.push(['${tt_app_id}', tt_app_id]);
     replaceList.push(['${app_version}', app_version]);
     replaceList.push(['${bg_color}', bg_color]);
     replaceList.push(['${orientation}', orientation]);
@@ -89,6 +92,7 @@ const initReplaceList = (htmlFile) => {
     replaceList.push(['${codeJs}', program.jsfile]);
     replaceList.push(['${chunkJs}', program.jschunk]);
     replaceList.push(['${unpackJs}', program.jsunpack]);
+    replaceList.push(['"${wx_is_tourist}"', wx_app_id === 'touristappid']);
 }
 
 const begin = () => {
@@ -132,7 +136,7 @@ gulp.task('help', Empty.emptyTask(() => {
     console.log("  --input            input dir");
     console.log("  --output           output dir");
     console.log("  --env              [Optional] development(dev) || production(prod)");
-    console.log("  --platform         [Optional] h5 | quickgame | android");
+    console.log("  --platform         [Optional] h5 | tt | wx | quickgame | android");
     console.log("  --index            [Optional] index.html file def: index.html");
     console.log("  --version          [Optional] version code def: read package.json");
     console.log("  --cssfile          [Optional] cssfile def: style.css");
