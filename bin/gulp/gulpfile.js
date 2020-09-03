@@ -18,7 +18,7 @@ const gulp = require('gulp');
 const minimist = require('minimist');
 const program = minimist(process.argv.slice(2), []);
 
-const supportPlatform = ["h5", "wx", "tt", "quickgame", "android"]
+const supportPlatform = ["h5", "wx", "tt", "cy", "android"]
 
 if (!program.platform) {
     program.platform = 'h5';

@@ -6,6 +6,6 @@
 		"minified": true,
 		"newFeature": true
 	},
-	"appid": "${wx_app_id}",
+	"appid": "${tt_app_id}",
 	"projectname": "${project_name}"
 }
