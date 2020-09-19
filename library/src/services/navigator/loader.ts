@@ -21,15 +21,17 @@ export default class extends Laya.Component {
         if (res && res.length > 0) {
             Laya.loader.load(res, Laya.Handler.create(this, () => {
                 this._newActivity();
-                this._onLoaded();
+                setTimeout(() => { this._onLoaded(); }, 100);
                 env.printDebug("onLoaded", this._pageName);
             }), Laya.Handler.create(this, (progress) => {
+                env.printDebug("onLoadProgress", this._pageName, progress);
                 this._onLoadProgress(progress);
             }, null, false));
         } else {
             this._newActivity();
             this._onLoaded();
             env.printDebug("onLoaded", this._pageName);
+            env.printDebug("onLoadProgress", this._pageName, 1);
         }
     }
 

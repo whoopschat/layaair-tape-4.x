@@ -2,7 +2,6 @@ import UILoader from "./loader";
 import UIMgr from "../manager/uimgr";
 
 let _loaders = [];
-let _loading = false;
 
 function _all() {
     return _loaders;
@@ -99,15 +98,12 @@ function navigate(page, params = null, action = null, single = false) {
                 });
             },
             onLoaded: (loader) => {
-                _loading = false;
                 UIMgr.addViewToMainLayer(loader);
                 _pushStack(loader);
             },
             onLoadProgress: (loader, progress) => {
-                if (_loading) {
-                    var stack = _getStack();
-                    stack && stack.nextProgress(progress);
-                }
+                var stack = _getStack();
+                stack && stack.nextProgress(progress);
             }
         });
     }
