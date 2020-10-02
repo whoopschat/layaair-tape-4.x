@@ -9,6 +9,7 @@ import event from "./services/event";
 import pipeline from "./services/pipeline";
 import runtime from "./services/runtime";
 import utils from './services/utils';
+import message from "./services/message";
 import navigator from "./services/navigator/stack";
 import popup from "./services/display/popupmanager";
 import toast from "./services/display/toastmanager";
@@ -33,6 +34,7 @@ const Tape = {
     utils,
     popup,
     toast,
+    message,
     Activity,
     PopupView,
     ToastView,

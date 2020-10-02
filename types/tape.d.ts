@@ -100,6 +100,14 @@ declare module Tape {
         function getBgSprite(): Laya.Sprite;
     }
 
+    /** message */
+    module message {
+        /** create */
+        function postMessage(data: obj): Laya.MovieClip;
+        /** remove */
+        function onMessage(callback: (data: obj) => void): void;
+    }
+
     /** eft */
     module eft {
         /** create */

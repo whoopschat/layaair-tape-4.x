@@ -80,7 +80,7 @@ const initReplaceList = (htmlFile) => {
     let packagename = program.packagename || Html.readValue({ file: htmlFile, selector: 'meta', attribute: 'packagename' }, "com.tapegame");
     let wx_app_id = program.wx_app_id || Html.readValue({ file: htmlFile, selector: 'meta', attribute: 'wx_app_id' }, "touristappid");
     let tt_app_id = program.tt_app_id || Html.readValue({ file: htmlFile, selector: 'meta', attribute: 'tt_app_id' }, "testappId");
-    let bg_color = program.bgcolor ? program.bgcolor : "#000000";
+    let bg_color = program.bgcolor || Html.readValue({ file: htmlFile, selector: 'meta', attribute: 'bgcolor' }, "#000000");
     replaceList.push(['${wx_app_id}', wx_app_id]);
     replaceList.push(['${tt_app_id}', tt_app_id]);
     replaceList.push(['${app_version}', app_version]);
