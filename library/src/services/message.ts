@@ -10,12 +10,15 @@ function onMessage(callback) {
 }
 
 function postMessage(data = {}) {
+    if (data) {
+        _listeners.forEach(callback => callback(toAny(data, {})));
+    }
     if (env.isConchApp()) {
-        Laya.conchMarket.sendMessageToPlatform(JSON.stringify(data), (resp) => {
+        Laya.conchMarket.sendMessageToPlatform(toAny(data, "{}"), (resp) => {
             env.printDebug("conch message callback: ", resp);
         })
     } else {
-        window.parent.postMessage(data, '*');
+        window.parent.postMessage(toAny(data, {}), '*');
     }
 }
 
