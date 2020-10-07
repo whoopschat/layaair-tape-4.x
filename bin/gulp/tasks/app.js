@@ -24,8 +24,11 @@ function androidTask(folder, url, appPath) {
             outpath = outpath.replace(/\//g, '_');
             outpath = path.join(cache_path, outpath);
             outpath = path.join(appPath, outpath);
+            let tempDcc = path.join(folder, "update");
             FileUtils.mkdirsSync(outpath);
+            FileUtils.mkdirsSync(tempDcc);
             layadcc.gendcc(res_path, outpath, true, false);
+            layadcc.gendcc(res_path, tempDcc, true, false);
         }
         done();
     }
